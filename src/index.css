@@ -21,3 +21,28 @@
   font-style: normal;
 
   }
+  /* Style the entire scrollbar */
+::-webkit-scrollbar {
+  width: 15px; 
+  height: 15px; 
+}
+
+
+::-webkit-scrollbar-thumb {
+  background-color: #1f2a38; 
+
+}
+
+/* Style the scrollbar track (the area the thumb slides within) */
+::-webkit-scrollbar-track {
+  background: #ffffffa6; 
+}
+
+
+
+  
+  
+  
+  
+  
+  

@@ -52,7 +52,6 @@ export default function Signup() {
     </div>
     
 
-
     <div className="w-full h-screen  flex lg:flex-row flex-col lg:gap-36 items-center ">
       {/* Left Section */}  
       
