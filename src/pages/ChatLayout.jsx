@@ -4,6 +4,8 @@ import { IoIosSend, IoIosClose } from "react-icons/io";
 import { CgMenuLeft } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown"; // Import react-markdown
+import ClearHistory from "../components/ClearHistory";
+import Logout from "../components/Logout";
 
 export default function ChatLayout() {
   const [messages, setMessages] = useState([]); // Chat history
@@ -88,39 +90,39 @@ export default function ChatLayout() {
         // Add the full response to the chat messages
         setMessages((prevMessages) => [
           ...prevMessages.slice(0, -1), // Remove the placeholder
-          { userMessage: prevMessages[prevMessages.length - 1].userMessage, botResponse: text },
+          {
+            userMessage: prevMessages[prevMessages.length - 1].userMessage,
+            botResponse: text,
+          },
         ]);
         setTypingMessage("");
       }
     }, 10); // Adjust typing speed here
   };
 
-  // Function to clear chat history
-const clearHistory = async () => {
-  const token = localStorage.getItem("token"); // Retrieve token
+  //Function to clear chat history
+  const clearHistory = async () => {
+    const token = localStorage.getItem("token"); // Retrieve token
 
-  if (!token) {
-    console.error("No token found, user must log in.");
-    navigate("/login");
-    return;
-  }
+    if (!token) {
+      console.error("No token found, user must log in.");
+      navigate("/login");
+      return;
+    }
 
-  try {
-    // Send DELETE request to clear chat history
-    await axios.delete("http://45.159.221.50:9093/chatbot/history", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    try {
+      // Send DELETE request to clear chat history
+      await axios.delete("http://45.159.221.50:9093/chatbot/history", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    // Clear chat messages in state
-    setMessages([]);
-    console.log("Chat history cleared successfully.");
-  } catch (error) {
-    console.error("Failed to clear chat history:", error);
-  }
-};
-
-
-
+      // Clear chat messages in state
+      setMessages([]);
+      console.log("Chat history cleared successfully.");
+    } catch (error) {
+      console.error("Failed to clear chat history:", error);
+    }
+  };
 
   // Logout function
   const logout = () => {
@@ -135,14 +137,16 @@ const clearHistory = async () => {
       <aside
         className={`${
           sidebarVisible
-            ? "w-72 border-r border-gray-500 sm:relative absolute "
+            ? "w-72  border-r border-gray-500 sm:relative absolute "
             : "w-0 sm:w-0 sm:relative"
-        } h-screen md:p-4 p-2 transition-all duration-300 bg-black z-40`}
+        } h-screen   md:p-4 p-2 transition-all duration-300 bg-black z-40`}
       >
         {sidebarVisible && (
           <>
             <div className="flex justify-between items-center">
-              <div className="text-gray-300 font-bold text-lg mb-4">ChatBot</div>
+              <div className="text-gray-300 font-bold text-lg mb-4">
+                ChatBot
+              </div>
               <button
                 onClick={() => setSidebarVisible(false)}
                 className="text-white text-xl"
@@ -150,18 +154,8 @@ const clearHistory = async () => {
                 <IoIosClose />
               </button>
             </div>
-            <button
-              onClick={clearHistory}
-              className="mt-8 w-full text-center bg-gray-800 py-2 rounded hover:bg-gray-700 transition"
-            >
-              Clear All History
-            </button>
-            <button
-              onClick={logout}
-              className="mt-5 w-full text-center bg-gray-800 py-2 rounded hover:bg-gray-700 transition"
-            >
-              Logout
-            </button>
+            <ClearHistory clear={clearHistory} />
+            <Logout click={logout} />
           </>
         )}
       </aside>
@@ -216,8 +210,7 @@ const clearHistory = async () => {
                 </div>
               </div>
               <div className="p-3 rounded-lg  text-white max-w-[80%]">
-              <ReactMarkdown>{typingMessage}</ReactMarkdown>
-              
+                <ReactMarkdown>{typingMessage}</ReactMarkdown>
               </div>
             </div>
           )}

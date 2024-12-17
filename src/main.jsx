@@ -1,15 +1,21 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
-import Signup from './pages/Signup.jsx';
-import Login from './pages/Login.jsx';
-import ChatLayout from './pages/ChatLayout.jsx';
-import ProtectedRoute from './components/ProtectedRoute';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import Signup from "./pages/Signup.jsx";
+import Login from "./pages/Login.jsx";
+import ChatLayout from "./pages/ChatLayout.jsx";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
@@ -17,15 +23,19 @@ const router = createBrowserRouter([
         element: <Navigate to="/signup" />, // Redirect to the signup page
       },
       {
-        path: '/login',
+        path: "/login",
         element: <Login />,
       },
       {
-        path: '/signup',
+        path: "/signup",
         element: <Signup />,
       },
       {
-        path: '/home',
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/home",
         element: (
           <ProtectedRoute>
             <ChatLayout />
@@ -36,7 +46,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>
