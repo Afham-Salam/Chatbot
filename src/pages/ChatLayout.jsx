@@ -6,12 +6,39 @@ import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown"; // Import react-markdown
 
 export default function ChatLayout() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); // Chat history
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [typingMessage, setTypingMessage] = useState(""); // State for typing animation
+  const [typingMessage, setTypingMessage] = useState(""); // Typing animation state
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
+  // Fetch initial chat history
+  const fetchInitialData = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await axios.get("http://45.159.221.50:9093/chatbot/history", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Assuming the response data is an array of objects with userMessage and botResponse
+      if (res.data) {
+        setMessages(res.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch chat history:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
+  // Handle sending a new message
   const handleSend = async () => {
     const userMessage = inputRef.current.value;
 
@@ -24,7 +51,7 @@ export default function ChatLayout() {
       // Add user message to chat
       setMessages((prevMessages) => [
         ...prevMessages,
-        { type: "question", text: userMessage },
+        { userMessage: userMessage, botResponse: null },
       ]);
 
       // Clear the input box
@@ -46,6 +73,7 @@ export default function ChatLayout() {
     }
   };
 
+  // Typing animation for bot response
   const startTypingAnimation = (text) => {
     setTypingMessage("");
     let index = 0;
@@ -59,15 +87,42 @@ export default function ChatLayout() {
 
         // Add the full response to the chat messages
         setMessages((prevMessages) => [
-          ...prevMessages,
-          { type: "response", text },
+          ...prevMessages.slice(0, -1), // Remove the placeholder
+          { userMessage: prevMessages[prevMessages.length - 1].userMessage, botResponse: text },
         ]);
         setTypingMessage("");
       }
-    }, 20); // Adjust typing speed here
+    }, 10); // Adjust typing speed here
   };
 
-  // Logout
+  // Function to clear chat history
+const clearHistory = async () => {
+  const token = localStorage.getItem("token"); // Retrieve token
+
+  if (!token) {
+    console.error("No token found, user must log in.");
+    navigate("/login");
+    return;
+  }
+
+  try {
+    // Send DELETE request to clear chat history
+    await axios.delete("http://45.159.221.50:9093/chatbot/history", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // Clear chat messages in state
+    setMessages([]);
+    console.log("Chat history cleared successfully.");
+  } catch (error) {
+    console.error("Failed to clear chat history:", error);
+  }
+};
+
+
+
+
+  // Logout function
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
@@ -96,7 +151,7 @@ export default function ChatLayout() {
               </button>
             </div>
             <button
-              onClick={() => setMessages([])}
+              onClick={clearHistory}
               className="mt-8 w-full text-center bg-gray-800 py-2 rounded hover:bg-gray-700 transition"
             >
               Clear All History
@@ -126,33 +181,30 @@ export default function ChatLayout() {
         {/* Messages Section */}
         <div className="flex-1 overflow-y-auto space-y-4 mb-6">
           {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex items-start ${
-                msg.type === "question" ? "justify-end" : "justify-start"
-              }`}
-            >
-              {/* Avatar for AI Response */}
-              {msg.type === "response" && (
-                <div className="flex-shrink-0 lg:mr-2">
-                  <div className="h-8 w-8    bg-white rounded-full flex items-center justify-center text-black font-bold">
-                    AI
+            <React.Fragment key={index}>
+              {/* User Message */}
+              {msg.userMessage && (
+                <div className="flex justify-end items-start">
+                  <div className="p-3 rounded-lg bg-gray-700 text-white max-w-[80%] mt-12 md:mr-14 mr-3">
+                    <ReactMarkdown>{msg.userMessage}</ReactMarkdown>
                   </div>
                 </div>
               )}
 
-              {/* Message Bubble */}
-              <div
-                className={`p-3 rounded-lg  ${
-                  msg.type === "question"
-                    ? "bg-gray-700 text-white md:mr-28 mt-12 "
-                    : " md:pr-14 text-white"
-                }`}
-              >
-                {/* Use ReactMarkdown to parse the message */}
-                <ReactMarkdown>{msg.text}</ReactMarkdown>
-              </div>
-            </div>
+              {/* Bot Response */}
+              {msg.botResponse && (
+                <div className="flex justify-start items-start">
+                  <div className="flex-shrink-0 mr-2">
+                    <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center text-black font-bold">
+                      AI
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-lg  text-white max-w-[80%]">
+                    <ReactMarkdown>{msg.botResponse}</ReactMarkdown>
+                  </div>
+                </div>
+              )}
+            </React.Fragment>
           ))}
 
           {/* Typing Animation */}
@@ -163,15 +215,16 @@ export default function ChatLayout() {
                   AI
                 </div>
               </div>
-              <div className="p-3 rounded-lg  text-white">
-                {typingMessage}
+              <div className="p-3 rounded-lg  text-white max-w-[80%]">
+              <ReactMarkdown>{typingMessage}</ReactMarkdown>
+              
               </div>
             </div>
           )}
         </div>
 
         {/* Chat Section */}
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 items-center  p-3 ">
           <input
             type="text"
             ref={inputRef}
@@ -183,7 +236,7 @@ export default function ChatLayout() {
           />
           <button
             onClick={handleSend}
-            className="h-8 w-8 bg-white rounded-full text-black flex items-center justify-center transition hover:bg-gray-200"
+            className="h-8 w-8  bg-white rounded-full text-black flex items-center justify-center transition hover:bg-gray-200"
           >
             <IoIosSend className="text-2xl" />
           </button>

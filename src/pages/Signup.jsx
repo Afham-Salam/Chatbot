@@ -60,7 +60,7 @@ export default function Signup() {
   <p className="text-lg text-center max-w-[80%]  tracking-wide lg:block hidden fontStyle">
     Supercharge your marketing with our chatbot
   </p>
-  <p className="md:text-[2rem] font-extrabold tracking-wider text-[22px] ">Sign up now!</p>
+  <p className="md:text-[2rem] font-extrabold tracking-wide text-[22px] ">Sign up now!</p>
 </div>
 
 
@@ -118,11 +118,7 @@ export default function Signup() {
                 component="div"
                 className="text-red-500 text-[12px] lg:mt-2 "
               />
-              <div className="text-right mt-2">
-                <Link to="/forgot-password" className="text-white text-opacity-80 text-[13px] hover:underline">
-                  Forgot Password?
-                </Link>
-              </div>
+              
             </div>
 
             {/* Submit Button */}
