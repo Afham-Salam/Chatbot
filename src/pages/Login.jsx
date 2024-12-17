@@ -67,7 +67,7 @@ export default function Login() {
   <p className="text-lg text-center max-w-[80%]  tracking-wide lg:block hidden fontStyle">
   Elevate your marketing with our smart chatbot
   </p>
-  <p className="md:text-[2rem] font-extrabold tracking-wider text-[22px] ">Log in now!</p>
+  <p className="md:text-[2rem] font-extrabold tracking-wide text-[22px] ">Log in now!</p>
 </div>
 
       {/* Right Section */}
@@ -77,7 +77,7 @@ export default function Login() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form className="md:p-10 p-7 border-2 border-opacity-45 rounded-lg border-gray-300 shadow-lg">
+          <Form className="md:p-10 p-7 border-2  rounded-lg border-gray-300 shadow-lg">
            
 
             {/* Email Input */}
@@ -176,10 +176,12 @@ export default function Login() {
               >
                 {message}
               </p>
+              
             )}
           </Form>
         )}
       </Formik>
+     
     </div>
 
     </div>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { IoIosSend, IoIosClose } from "react-icons/io";
 import { CgMenuLeft } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown"; // Import react-markdown
 
 export default function ChatLayout() {
   const [messages, setMessages] = useState([]);
@@ -46,7 +47,7 @@ export default function ChatLayout() {
   };
 
   const startTypingAnimation = (text) => {
-    setTypingMessage(""); 
+    setTypingMessage("");
     let index = 0;
 
     const interval = setInterval(() => {
@@ -61,7 +62,7 @@ export default function ChatLayout() {
           ...prevMessages,
           { type: "response", text },
         ]);
-        setTypingMessage(""); 
+        setTypingMessage("");
       }
     }, 20); // Adjust typing speed here
   };
@@ -81,7 +82,7 @@ export default function ChatLayout() {
           sidebarVisible
             ? "w-72 border-r border-gray-500 sm:relative absolute "
             : "w-0 sm:w-0 sm:relative"
-        } h-screen p-4 transition-all duration-300 bg-black z-40`}
+        } h-screen md:p-4 p-2 transition-all duration-300 bg-black z-40`}
       >
         {sidebarVisible && (
           <>
@@ -121,7 +122,7 @@ export default function ChatLayout() {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col p-6">
+      <main className="flex-1 flex flex-col md:p-6">
         {/* Messages Section */}
         <div className="flex-1 overflow-y-auto space-y-4 mb-6">
           {messages.map((msg, index) => (
@@ -133,8 +134,8 @@ export default function ChatLayout() {
             >
               {/* Avatar for AI Response */}
               {msg.type === "response" && (
-                <div className="flex-shrink-0 mr-2">
-                  <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center text-black font-bold">
+                <div className="flex-shrink-0 lg:mr-2">
+                  <div className="h-8 w-8    bg-white rounded-full flex items-center justify-center text-black font-bold">
                     AI
                   </div>
                 </div>
@@ -142,13 +143,14 @@ export default function ChatLayout() {
 
               {/* Message Bubble */}
               <div
-                className={`p-3 rounded-lg max-w-xs ${
+                className={`p-3 rounded-lg  ${
                   msg.type === "question"
-                    ? "bg-gray-700 text-white mr-4 "
-                    : " text-white"
+                    ? "bg-gray-700 text-white md:mr-28 mt-12 "
+                    : " md:pr-14 text-white"
                 }`}
               >
-                {msg.text}
+                {/* Use ReactMarkdown to parse the message */}
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
             </div>
           ))}
@@ -161,7 +163,7 @@ export default function ChatLayout() {
                   AI
                 </div>
               </div>
-              <div className="p-3 rounded-lg max-w-xs  text-white">
+              <div className="p-3 rounded-lg  text-white">
                 {typingMessage}
               </div>
             </div>

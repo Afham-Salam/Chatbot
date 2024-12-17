@@ -74,7 +74,7 @@ export default function Signup() {
         onSubmit={handleSubmit}
       >
         {({ setFieldValue }) => (
-          <Form className="md:p-10 p-7 border-2 border-opacity-45 rounded-lg border-gray-300 shadow-lg">
+          <Form className="md:p-10 p-7 border-2 rounded-lg border-gray-300 shadow-lg">
            
 
             {/* Email Input */}
