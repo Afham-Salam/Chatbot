@@ -25,6 +25,8 @@ export default function Signup() {
       email,
       password,
       role: "student",
+      walletBalance:5
+      
     };
     console.log(formData);
 
@@ -34,7 +36,9 @@ export default function Signup() {
         formData
       );
       setMessage(response.data.message);
+      console.log("user",response.data.message)
       localStorage.setItem("token", response.data.refreshToken);
+      localStorage.setItem("limit", response.data.walletBalance);
       navigate("/login");
     } catch (error) {
       setMessage(

@@ -23,6 +23,7 @@ export default function Login() {
     const formData = {
       email: values.email.trim(),
       password: values.password.trim(),
+      walletBalance:5
     };
 
     try {
@@ -37,7 +38,9 @@ export default function Login() {
         const payload = JSON.parse(
           atob(response.data.refreshToken.split(".")[1])
         );
+        console.log("user",response.data.walletBalance)
         localStorage.setItem("userId", payload.id);
+        localStorage.setItem("limit", response.data.walletBalance);
 
         if (payload.id) {
           navigate("/home");

@@ -12,6 +12,7 @@ import Login from "./pages/Login.jsx";
 import ChatLayout from "./pages/ChatLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import SubscriptionPlan from "./pages/SubscriptionPlan.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/forgot-password",
         element: <ForgotPassword />,
+      },
+      {
+        path: "/subscription-plan",
+        element: <SubscriptionPlan />,
       },
       {
         path: "/home",
