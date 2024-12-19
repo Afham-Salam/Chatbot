@@ -251,7 +251,7 @@ export default function ChatLayout() {
             <React.Fragment key={index}>
               {msg.userMessage && (
                 <div className="flex justify-end items-start">
-                  <div className="p-3 rounded-lg  bg-gray-800 text-white max-w-[80%] mt-12 md:mr-14 mr-3">
+                  <div className="p-3 rounded-lg md:text-[15px] text-sm   bg-gray-800 text-white max-w-[80%] mt-12 md:mr-14 mr-3">
                     <ReactMarkdown>{msg.userMessage}</ReactMarkdown>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ export default function ChatLayout() {
                       AI
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg text-[15px] leading-loose  max-w-[80%]">
+                  <div className="p-3 rounded-lg md:text-[15px] text-sm leading-loose  max-w-[80%]">
                     <ReactMarkdown>{msg.botResponse}</ReactMarkdown>
                   </div>
                 </div>
