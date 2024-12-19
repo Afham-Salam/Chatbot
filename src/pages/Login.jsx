@@ -23,7 +23,7 @@ export default function Login() {
     const formData = {
       email: values.email.trim(),
       password: values.password.trim(),
-      walletBalance:5
+      // walletBalance:10
     };
 
     try {
@@ -40,7 +40,7 @@ export default function Login() {
         );
         console.log("user",response.data.walletBalance)
         localStorage.setItem("userId", payload.id);
-        localStorage.setItem("limit", response.data.walletBalance);
+         localStorage.setItem("limit", response.data.walletBalance);
 
         if (payload.id) {
           navigate("/home");
@@ -160,7 +160,7 @@ export default function Login() {
 
                 {/* Google Login Button */}
                 <button
-                  className="w-full lg:py-3 py-2 bg-white border-2 border-gray-300 text-md font-semibold rounded-md flex items-center justify-center space-x-3 hover:bg-gray-100 transition duration-200 ease-in-out"
+                  className="w-full lg:py-3 py-2 bg-white border-2 border-gray-300 text-md font-semibold rounded-md flex items-center justify-center space-x-3 hover:bg-gray-300 transition duration-200 ease-in-out"
                   type="button"
                 >
                   <img

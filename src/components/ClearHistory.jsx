@@ -5,7 +5,7 @@ export default function ClearHistory({ clear }) {
     <>
       {/* Open the modal using document.getElementById('my_modal_1').showModal() method */}
       <button
-        className=" mt-5 w-full text-center bg-gray-800 py-2 rounded hover:bg-gray-700 transition"
+        className=" mt-5 w-full text-center bg-gray-800 py-2 hover:scale-105 rounded hover:bg-gray-700 transition"
         onClick={() => document.getElementById('my_modal_1').showModal()}
       >
        Clear History

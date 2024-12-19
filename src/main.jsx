@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import SubscriptionPlan from "./pages/SubscriptionPlan.jsx";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
         path: "/subscription-plan",
         element: <SubscriptionPlan />,
       },
+     
       {
         path: "/home",
         element: (

@@ -5,7 +5,7 @@ export default function Logout({ click }) {
     <>
       {/* Logout Button */}
       <button
-        className="mt-5 w-full text-center bg-gray-800 py-2 text-white rounded hover:bg-gray-700 transition"
+        className="mt-5 w-full text-center bg-gray-800 py-2 text-white rounded hover:scale-105  hover:bg-gray-700 transition"
         onClick={() => document.getElementById("my_modal_2").showModal()}
       >
         Logout
