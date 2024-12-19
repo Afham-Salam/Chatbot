@@ -92,6 +92,7 @@ const handlePurchase = async (id) => {
 
         if (verifyResponse.status === 200 && verifyResponse.data.message) {
           alert("Payment verified successfully." , verifyResponse.data.message);
+          
         } else {
           console.error("Failed to verify payment:", verifyResponse.data);
           alert("Failed to verify payment. Please contact support.");

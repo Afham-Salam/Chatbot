@@ -219,7 +219,7 @@ export default function ChatLayout() {
         >
           <CgMenuLeft className="text-2xl" />
           <span className="lg:hidden pl-20 text-gray-300 font-bold ">
-            Chatbot
+            ChatBot
           </span>
         </button>
       )}

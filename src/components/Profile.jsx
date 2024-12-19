@@ -86,7 +86,7 @@ const Profile = () => {
           backgroundColor: "black",
           color: "white",
         }}
-        closeIcon={<span style={{ color: "white" }}>×</span>} // Custom close icon color
+        closeIcon={<span style={{ color: "white",}}>×</span>} // Custom close icon color
       >
         {loading ? (
           <p>Loading...</p>
@@ -116,18 +116,27 @@ const Profile = () => {
 
                 <hr className="opacity-60"></hr>
 
-                <p className="text-left  text-[16px]">Selected Plan</p>
-                <p className="text-gray-300 text-left">
-                  {profileData.subscription.name}
-                </p>
-                <p className="text-gray-300 text-left">
-                  {new Date(
-                    profileData.subscription.expiresAt
-                  ).toLocaleDateString()}{""}&emsp;
-                  {new Date(
-                    profileData.subscription.expiresAt
-                  ).toLocaleTimeString()}
-                </p>
+                <div className="text-left text-[16px]">
+  <p className="mb-3">Selected Plan</p>
+  {profileData.subscription && profileData.subscription.name ? (
+    <>
+      <p className="text-gray-300 mb-2 text-sm ">{profileData.subscription.name}</p>
+      {profileData.subscription.expiresAt ? (
+        <p className="text-gray-300 mb-3 text-sm">
+          {new Date(profileData.subscription.expiresAt).toLocaleDateString()}{" "}
+          {new Date(profileData.subscription.expiresAt).toLocaleTimeString()}
+        </p>
+      ) : (
+        ""
+      )}
+    </>
+  ) : (
+    <p className="text-gray-300 ">No subscription found.</p>
+  )}
+</div>
+
+
+
 
                 <button
                   className="mt-5 w-full text-center bg-gray-800 py-2 text-white rounded hover:scale-105  hover:bg-gray-700 transition"
