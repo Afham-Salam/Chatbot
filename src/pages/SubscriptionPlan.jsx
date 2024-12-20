@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRazorpay, RazorpayOrderOptions } from "react-razorpay";
 import PaymentComponent from "../components/PaymentComponent";
 import APIClientPrivate from "../utils/axios";
+import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 
 export default function SubscriptionPlan() {
@@ -55,6 +57,7 @@ const handlePurchase = async (id) => {
     console.log("Response data:", response.data);
 
     const data = response.data;
+    
 
     // Validate response data
     if (!data.orderId) {
@@ -93,6 +96,7 @@ const handlePurchase = async (id) => {
 
         if (verifyResponse.status === 200 && verifyResponse.data.message) {
           alert("Payment verified successfully." , verifyResponse.data.message);
+          localStorage.setItem("sunscription",JSON.stringify({planId:response.data._id,name:response.data.name} ));
           
         } else {
           console.error("Failed to verify payment:", verifyResponse.data);
@@ -120,43 +124,45 @@ const handlePurchase = async (id) => {
 };
 
   return (
+   <>
     <div className="min-h-screen bg-black text-white flex flex-col items-center py-10">
+   <Link to={'/home'} className="text-white absolute left-2 top-4 "><IoArrowBackCircleSharp className="text-3xl" /></Link>
    
   
-    <h1 className="text-4xl font-extrabold mb-4 text-center">
-      Choose Your Chatbot Plan
-    </h1>
-    <p className="text-gray-400 mb-6 text-center">
-      Automate your digital marketing with a powerful chatbot designed to
-      engage customers and grow your business.
-    </p>
+   <h1 className="text-4xl font-extrabold mb-4 text-center">
+     Choose Your Chatbot Plan
+   </h1>
+   <p className="text-gray-400 mb-6 text-center">
+     Automate your digital marketing with a powerful chatbot designed to
+     engage customers and grow your business.
+   </p>
 
-      {/* Toggle Button for Monthly/Yearly */}
-    
+     {/* Toggle Button for Monthly/Yearly */}
+   
 
-      {/* Subscription Plans */}
-      <div className="grid md:grid-cols-3 gap-6 w-full max-w-6xl px-6">
-        {plan.map((it,index) => (
-          <div
-            key={index}
-            className="bg-gray-800 rounded-lg shadow-md p-6 flex flex-col justify-between"
-          >
-            <div>
-              <h2 className="text-2xl font-bold mb-2">{it.name}</h2>
-              <p className="text-gray-400 mb-4">{it.description}</p>
-              <p className="text-3xl font-extrabold mb-4">
-                &#8377;&nbsp;
-                {it.price}
-                /-
-              </p>
-            </div>
-            
-            <button onClick={()=>handlePurchase(it._id)} className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-md font-semibold transition duration-300">
-              Select Plan
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
+     {/* Subscription Plans */}
+     <div className="grid md:grid-cols-3 gap-6 w-full max-w-6xl px-6">
+       {plan.map((it,index) => (
+         <div
+           key={index}
+           className="bg-gray-800 rounded-lg shadow-md p-6 flex flex-col justify-between"
+         >
+           <div>
+             <h2 className="text-2xl font-bold mb-2">{it.name}</h2>
+             <p className="text-gray-400 mb-4">{it.description}</p>
+             <p className="text-3xl font-extrabold mb-4">
+               &#8377;&nbsp;
+               {it.price}
+               /-
+             </p>
+           </div>
+           
+           <button onClick={()=>handlePurchase(it._id)} className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-md font-semibold transition duration-300">
+             Select Plan
+           </button>
+         </div>
+       ))}
+     </div>
+   </div></>
   );
 }

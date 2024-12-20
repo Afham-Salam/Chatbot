@@ -50,6 +50,7 @@ const Profile = () => {
         setLetter(response.data.email);
 
         localStorage.setItem("letter", response.data.email);
+        
       } catch (err) {
         setError("Failed to fetch profile data. Please try again.");
         console.error("Error fetching profile:", err);

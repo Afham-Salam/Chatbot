@@ -78,15 +78,18 @@ export default function ChatLayout() {
     // const currentChatCount = Number(localStorage.getItem("chatCount")) || 0;
 
     const chatLimit = Number(localStorage.getItem("walletBalance"));
+    const subs = JSON.parse(localStorage.getItem("subscription")) || undefined;
+   console.log({subs});
 
-    if (chatLimit==0) {
+   console.log(!subs,chatLimit);
+   
+   
+    if (chatLimit < 0 && !subs) {
       navigate("/subscription-plan");
       return;
     }
     const updatedBalance = chatLimit - 1;
     localStorage.setItem("walletBalance", updatedBalance);
-
-    
 
     const query = { message: userMessage };
     const token = localStorage.getItem("token");
@@ -164,6 +167,7 @@ export default function ChatLayout() {
     localStorage.removeItem("userId");
     localStorage.removeItem("limit");
     localStorage.removeItem("chatCount");
+    localStorage.removeItem("subscription");
 
     navigate("/login");
   };

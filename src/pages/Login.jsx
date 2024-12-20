@@ -32,16 +32,24 @@ export default function Login() {
         "/auth/login",
         formData
       );
-      setMessage(response.data.message);
 
+      console.log({response},response.data.subscription);
+      
+      setMessage(response.data.message);
+      
       if (response.data.refreshToken) {
-        localStorage.setItem("token", response.data.refreshToken);
+        localStorage.setItem("token", response.data.accessToken);
         const payload = JSON.parse(
-          atob(response.data.refreshToken.split(".")[1])
+          atob(response.data.accessToken.split(".")[1])
         );
         console.log("user",response.data.walletBalance)
         localStorage.setItem("userId", payload.id);
          localStorage.setItem("walletBalance", response.data.walletBalance);
+
+         if(response.data.subscription.planId){
+          localStorage.setItem("subscription", JSON.stringify(response.data.subscription));
+         }
+
 
         if (payload.id) {
           navigate("/home");
