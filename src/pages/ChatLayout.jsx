@@ -9,6 +9,7 @@ import Logout from "../components/Logout";
 import Subscription from "../components/Subscription";
 import Profile from "../components/Profile";
 import useWindowWidth from "../hooks/useWindowWidth";
+import APIClientPrivate from "../utils/axios";
 
 export default function ChatLayout() {
   const [messages, setMessages] = useState([]); 
@@ -28,7 +29,7 @@ export default function ChatLayout() {
     }
 
     try {
-      const res = await axios.get("http://45.159.221.50:9093/chatbot/history", {
+      const res = await APIClientPrivate.get("/chatbot/history", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -44,8 +45,8 @@ export default function ChatLayout() {
   const fetchHintQuestions = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get(
-        "http://45.159.221.50:9093/api/hint-questions",
+      const res = await APIClientPrivate.get(
+        "/api/hint-questions",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -98,8 +99,8 @@ export default function ChatLayout() {
 
       if (!presetMessage) inputRef.current.value = "";
 
-      const res = await axios.post(
-        "http://45.159.221.50:9093/chatbot/query",
+      const res = await APIClientPrivate.post(
+        "/chatbot/query",
         query,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -146,7 +147,7 @@ export default function ChatLayout() {
     }
 
     try {
-      await axios.delete("http://45.159.221.50:9093/chatbot/history", {
+      await APIClientPrivate.delete("/chatbot/history", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

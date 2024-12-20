@@ -1,9 +1,10 @@
-import axios from "axios";
+ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import APIClientPrivate from "../utils/axios";
 
 export default function Login() {
   const [message, setMessage] = useState("");
@@ -27,8 +28,8 @@ export default function Login() {
     };
 
     try {
-      const response = await axios.post(
-        "http://45.159.221.50:9093/auth/login",
+      const response = await APIClientPrivate.post(
+        "/auth/login",
         formData
       );
       setMessage(response.data.message);

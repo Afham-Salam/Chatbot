@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import APIClientPrivate from "../utils/axios";
 
 export default function ForgotPassword() {
   const [message, setMessage] = useState("");
@@ -17,8 +18,8 @@ export default function ForgotPassword() {
     const formData = { email: values.email.trim() };
 
     try {
-      const response = await axios.post(
-        "http://45.159.221.50:9093/auth/forgot-password",
+      const response = await APIClientPrivate.post(
+        "/auth/forgot-password",
         formData
       );
       setMessage(response.data.message || "Password reset link sent!");

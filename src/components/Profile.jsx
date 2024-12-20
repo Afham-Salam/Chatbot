@@ -4,6 +4,7 @@ import axios from "axios";
 import { GrMail } from "react-icons/gr";
 import { FaCoins } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
+import APIClientPrivate from "../utils/axios";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -36,8 +37,8 @@ const Profile = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(
-          "http://45.159.221.50:9093/auth/profile",
+        const response = await APIClientPrivate.get(
+          "/auth/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,

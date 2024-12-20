@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import APIClientPrivate from "../utils/axios";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -31,8 +32,8 @@ export default function Signup() {
     console.log(formData);
 
     try {
-      const response = await axios.post(
-        "http://45.159.221.50:9093/auth/signup",
+      const response = await APIClientPrivate.post(
+        "/auth/signup",
         formData
       );
       setMessage(response.data.message);

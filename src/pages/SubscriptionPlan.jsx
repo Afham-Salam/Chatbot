@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRazorpay, RazorpayOrderOptions } from "react-razorpay";
 import PaymentComponent from "../components/PaymentComponent";
+import APIClientPrivate from "../utils/axios";
 
 
 export default function SubscriptionPlan() {
@@ -12,7 +13,7 @@ export default function SubscriptionPlan() {
   const fetchPlan = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://45.159.221.50:9093/api/plans", {
+      const res = await APIClientPrivate.get("/api/plans", {
         headers: { Authorization: `Bearer ${token}` },
       });
       
@@ -42,8 +43,8 @@ const handlePurchase = async (id) => {
     }
 
     // Fetch the Razorpay order details from the backend using axios
-    const response = await axios.post(
-      `http://45.159.221.50:9093/auth/purchase/${id}`,
+    const response = await APIClientPrivate.post(
+      `/auth/purchase/${id}`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` }, // This should be in the 3rd parameter
@@ -75,8 +76,8 @@ const handlePurchase = async (id) => {
         alert("Payment successful:");
 
         // Verify payment with the backend
-        const verifyResponse = await axios.post(
-          "http://45.159.221.50:9093/auth/verify-payment",
+        const verifyResponse = await APIClientPrivate.post(
+          "/auth/verify-payment",
           {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
