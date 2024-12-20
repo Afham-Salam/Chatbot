@@ -67,23 +67,25 @@ export default function ChatLayout() {
 
   // Handle sending a new message
 
-  const CHAT_LIMIT = Number(localStorage.getItem("limit"));
+ 
   const handleSend = async (presetMessage) => {
     
     const userMessage = presetMessage || inputRef.current.value;
     console.log(inputRef.current.value, {presetMessage,userMessage} );
 
     if (!userMessage.trim()) return;
-    const currentChatCount = Number(localStorage.getItem("chatCount")) || 0;
+    // const currentChatCount = Number(localStorage.getItem("chatCount")) || 0;
 
-    const chatLimit = Number(localStorage.getItem("limit")) || CHAT_LIMIT;
+    const chatLimit = Number(localStorage.getItem("walletBalance"));
 
-    if (currentChatCount >= chatLimit) {
+    if (chatLimit==0) {
       navigate("/subscription-plan");
       return;
     }
+    const updatedBalance = chatLimit - 1;
+    localStorage.setItem("walletBalance", updatedBalance);
 
-    localStorage.setItem("chatCount", currentChatCount + 1);
+    
 
     const query = { message: userMessage };
     const token = localStorage.getItem("token");

@@ -106,6 +106,7 @@ const Profile = () => {
                   <FaCoins />
                   <span className="font-extrabold">
                     {profileData.walletBalance}
+                   
                   </span>
                 </p>
 

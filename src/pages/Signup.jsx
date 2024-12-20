@@ -38,7 +38,7 @@ export default function Signup() {
       setMessage(response.data.message);
       console.log("user",response.data.message)
       localStorage.setItem("token", response.data.refreshToken);
-      localStorage.setItem("limit", response.data.walletBalance);
+      localStorage.setItem("walletBalance", response.data.walletBalance);
       navigate("/login");
     } catch (error) {
       setMessage(

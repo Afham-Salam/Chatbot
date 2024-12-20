@@ -40,7 +40,7 @@ export default function Login() {
         );
         console.log("user",response.data.walletBalance)
         localStorage.setItem("userId", payload.id);
-         localStorage.setItem("limit", response.data.walletBalance);
+         localStorage.setItem("walletBalance", response.data.walletBalance);
 
         if (payload.id) {
           navigate("/home");
